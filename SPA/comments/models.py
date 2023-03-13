@@ -13,6 +13,11 @@ def get_upload_path(instance, filename):
     return f'{instance.__class__.__name__}/{datetime.datetime.today().strftime("%Y/%m")}/image_{filename}{ext}'
 
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    photo = models.ImageField(upload_to='profile_photos/', null=True, blank=True)
+
+
 class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
     body = models.TextField()
