@@ -28,7 +28,7 @@ class ProfileAdmin(admin.ModelAdmin):
 
 
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('id', 'author', 'body', 'created_time', 'parent')
+    list_display = ('id', 'level', 'author', 'body', 'created_time', 'parent')
     list_display_links = ('id',)
     search_fields = ('body',)
     list_editable = ('author',)

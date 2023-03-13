@@ -24,7 +24,13 @@ class Comment(models.Model):
     image = models.ImageField(upload_to=get_upload_path, null=True, blank=True)
     file = models.FileField(upload_to=get_upload_path, null=True, blank=True)
     created_time = models.DateTimeField(auto_now_add=True)
-    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
+    level = models.PositiveIntegerField(default=0)
+
+    def save(self, *args, **kwargs):
+        if self.parent:
+            self.level = self.parent.level + 1
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.body[:50]
