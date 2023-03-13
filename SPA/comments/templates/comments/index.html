@@ -1,9 +1,10 @@
 {% extends 'comments/base.html' %}
+{% load my_tags %}
 
 {% block content %}
 <div class="comments">
     {% for comment in object_list %}
-        <div class="comment">
+        <div class="comment" style="margin-left: {% multiply comment.level 20 %}px;">
             <p class="comment-info">By {{ comment.author }} on {{ comment.created_time }}</p>
             <p class="comment-body">{{ comment.body }}</p>
 
