@@ -1,0 +1,11 @@
+div.comment {
+    padding: 8px;
+    margin: 2px;
+    border: solid 2px black;
+    background-color: #cccecd;
+    color: black;
+}
+p.comment-info {
+    margin: 0px 0px 0px 12px;
+    font-size: 12px;
+}
