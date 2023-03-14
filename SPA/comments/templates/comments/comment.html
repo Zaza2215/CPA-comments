@@ -1,0 +1,17 @@
+<div class="comment reply">
+    <p>{{ comment.body }}</p>
+    {% if comment.replies.all %}
+
+    {% if comment.image %}
+        <img src="{{ comment.image.url }}" alt="{{ comment.image.name }}" style="width: 50px;">
+    {% endif %}
+    {% if comment.file %}
+        <a href="{{ comment.file.url }}">{{ comment.file.name }}</a>
+    {% endif %}
+    <div class="replies">
+        {% for reply in comment.replies.all %}
+        {% include 'comments/comment.html' with comment=reply %}
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>

@@ -1,4 +1,3 @@
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.views.generic import ListView
 
@@ -10,4 +9,5 @@ class CommentListView(ListView):
     template_name = 'comments/index.html'
 
     def get_queryset(self):
-        return Comment.objects.all()
+        queryset = super().get_queryset()
+        return queryset.filter(parent=None).prefetch_related('replies__replies')

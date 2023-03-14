@@ -24,7 +24,7 @@ class Comment(models.Model):
     image = models.ImageField(upload_to=get_upload_path, null=True, blank=True)
     file = models.FileField(upload_to=get_upload_path, null=True, blank=True)
     created_time = models.DateTimeField(auto_now_add=True)
-    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True,  related_name='replies')
     level = models.PositiveIntegerField(default=0)
 
     def save(self, *args, **kwargs):
