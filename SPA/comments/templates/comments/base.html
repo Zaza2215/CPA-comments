@@ -8,11 +8,11 @@
 </head>
 <body>
 <div class="header">
-    {% if user.authentication %}
-        <a href="#">Log out</a>
-    {% else %}
-        <a href="#">Log in</a> | <a href="{% url 'register' %}">Register</a>
-    {% endif %}
+        {% if user.is_authenticated %}
+        <p class="main-p">{{ user.username }} | <a href="{% url 'logout' %}">Log out</a></p>
+        {% else %}
+        <p class="main-p"><a href="{% url 'login' %}">Log in</a> | <a href="{% url 'register' %}">Register</a></p>
+        {% endif %}
 </div>
 <div class="center-page">
     {% block content %}
