@@ -8,7 +8,11 @@
 </head>
 <body>
 <div class="header">
-
+    {% if user.authentication %}
+        <a href="#">Log out</a>
+    {% else %}
+        <a href="#">Log in</a> | <a href="{% url 'register' %}">Register</a>
+    {% endif %}
 </div>
 <div class="center-page">
     {% block content %}

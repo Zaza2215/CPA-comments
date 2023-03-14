@@ -1,7 +1,17 @@
-from django.shortcuts import render
-from django.views.generic import ListView
+from django.contrib.auth import logout
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView
+from django.contrib.auth.views import LoginView
 
 from .models import *
+from .forms import *
+
+
+class RegisterUser(CreateView):
+    form_class = RegisterUserForm
+    template_name = 'comments/register.html'
+    success_url = reverse_lazy('main')
 
 
 class CommentListView(ListView):
