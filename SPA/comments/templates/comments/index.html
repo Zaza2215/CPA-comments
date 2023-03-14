@@ -5,20 +5,23 @@
 <div class="comments">
     {% for comment in object_list %}
     <div class="comment">
-        <p>{{ comment.body }}</p>
-        {% if comment.image %}
-            <img src="{{ comment.image.url }}" alt="{{ comment.image.name }}" style="width: 50px;">
-        {% endif %}
-        {% if comment.file %}
+        <p class="comment-info">By {{ comment.author }} on {{ comment.created_time }}</p>
+        <div class="comment-body">
+            <p class="comment-body">{{ comment.body }}</p>
+            {% if comment.image %}
+            <img src="{{ comment.image.url }}" alt="{{ comment.image.name }}" class="image-comment">
+            {% endif %}
+            {% if comment.file %}
             <a href="{{ comment.file.url }}">file.txt</a>
-        {% endif %}
-        {% if comment.replies.all %}
-        <div class="replies" style="padding-left: 2px;">
-            {% for reply in comment.replies.all %}
-            {% include 'comments/comment.html' with comment=reply %}
-            {% endfor %}
+            {% endif %}
+            {% if comment.replies.all %}
+            <div class="replies">
+                {% for reply in comment.replies.all %}
+                {% include 'comments/comment.html' with comment=reply %}
+                {% endfor %}
+            </div>
+            {% endif %}
         </div>
-        {% endif %}
     </div>
     {% endfor %}
 </div>
