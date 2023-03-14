@@ -89,3 +89,10 @@ div.comment-body {
     margin: 21px 0;
     height: 38px;
 }
+#id_body {
+    min-width: 792px;
+    max-width: 792px;
+}
+img.image-comment{
+    width: 50px;
+}

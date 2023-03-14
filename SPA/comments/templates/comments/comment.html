@@ -4,7 +4,7 @@
         <p class="comment-body">{{ reply.body }}</p>
 
         {% if reply.image %}
-        <img src="{{ reply.image.url }}" alt="{{ reply.image.name }}" style="width: 50px;">
+        <img class="image-comment" src="{{ reply.image.url }}" alt="{{ reply.image.name }}">
         {% endif %}
         {% if reply.file %}
         <a href="{{ reply.file.url }}">file.txt</a>

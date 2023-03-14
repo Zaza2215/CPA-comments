@@ -1,7 +1,7 @@
 from django.contrib.auth import logout
-from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import ListView, CreateView
 from django.contrib.auth.views import LoginView
 
@@ -28,10 +28,30 @@ def logout_user(request):
     return redirect('main')
 
 
-class CommentListView(ListView):
-    model = Comment
-    template_name = 'comments/index.html'
+class CommentBase(View):
+    http_method_names = ["get", "post"]
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset.filter(parent=None).prefetch_related('replies__replies')
+    def get(self, request, *args, **kwargs):
+        object_list = Comment.objects.filter(parent=None).prefetch_related('replies__replies')
+        context = {
+            'object_list': object_list,
+        }
+        if request.user.is_authenticated:
+            context['form'] = AddCommentForm
+        return render(request, 'comments/index.html', context=context)
+
+    def post(self, request, *args, **kwargs):
+        object_list = Comment.objects.filter(parent=None).prefetch_related('replies__replies')
+        context = {
+            'object_list': object_list,
+        }
+        if request.user.is_authenticated:
+            form = AddCommentForm(request.POST, request.FILES)
+            if form.is_valid():
+                comment = form.save(commit=False)
+                comment.author = request.user
+                comment.save()
+        else:
+            form = AddCommentForm
+        context['form'] = form
+        return render(request, 'comments/index.html', context=context)

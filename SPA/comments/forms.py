@@ -2,6 +2,19 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django import forms
 
+from .models import *
+
+
+class AddCommentForm(forms.ModelForm):
+    image = forms.ImageField(label='image', required=False)
+
+    class Meta:
+        model = Comment
+        fields = ('body', 'image', 'file', 'parent')
+        widget = {
+            'parent': forms.HiddenInput()
+        }
+
 
 class RegisterUserForm(UserCreationForm):
     username = forms.CharField(label='Login', widget=forms.TextInput(attrs={'class': 'form-input'}))
