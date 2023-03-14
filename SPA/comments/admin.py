@@ -33,7 +33,16 @@ class CommentAdmin(admin.ModelAdmin):
     search_fields = ('body',)
     list_editable = ('author',)
     list_filter = ('created_time', 'file', 'image', 'parent')
-    # readonly_fields = ('time_create',)
+    readonly_fields = ['created_time']
+
+    def add_view(self, request, form_url='', extra_context=None):
+        self.fields = ('body', 'image', 'file', 'parent')
+        return super().add_view(request, form_url=form_url, extra_context=extra_context)
+
+    def save_model(self, request, obj, form, change):
+        # set the current user as the author of the comment
+        obj.author = request.user
+        super().save_model(request, obj, form, change)
 
 
 admin.site.register(Comment, CommentAdmin)
