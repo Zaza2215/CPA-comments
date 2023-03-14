@@ -10,10 +10,10 @@
             <img src="{{ comment.image.url }}" alt="{{ comment.image.name }}" style="width: 50px;">
         {% endif %}
         {% if comment.file %}
-            <a href="{{ comment.file.url }}">{{ comment.file.name }}</a>
+            <a href="{{ comment.file.url }}">file.txt</a>
         {% endif %}
         {% if comment.replies.all %}
-        <div class="replies">
+        <div class="replies" style="padding-left: 2px;">
             {% for reply in comment.replies.all %}
             {% include 'comments/comment.html' with comment=reply %}
             {% endfor %}
