@@ -22,6 +22,19 @@
 </div>
 {% endif %}
 
+<form method="get">
+    <label for="sort_by">Sort by:</label>
+    <select id="sort_by" name="sort_by">
+      <option value="-created_time">Date (newest first)</option>
+      <option value="created_time">Date (oldest first)</option>
+      <option value="author__username">Author name (A-Z)</option>
+      <option value="-author__username">Author name (Z-A)</option>
+      <option value="author__email">Author email (A-Z)</option>
+      <option value="-author__email">Author email (Z-A)</option>
+    </select>
+    <button type="submit">Sort</button>
+  </form>
+
 <div class="comments">
     {% for comment in object_list %}
     <div class="comment">

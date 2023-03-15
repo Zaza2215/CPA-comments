@@ -32,12 +32,15 @@ class CommentBase(View):
     http_method_names = ["get", "post"]
 
     def get(self, request, *args, **kwargs):
-        object_list = Comment.objects.filter(parent=None).prefetch_related('replies__replies')
+        sort_by = self.request.GET.get('sort_by', '-created_time')
+        object_list = Comment.objects.filter(parent=None).prefetch_related('replies__replies').order_by(sort_by)
+
         context = {
             'object_list': object_list,
         }
         if request.user.is_authenticated:
             context['form'] = AddCommentForm
+            # context['order'] = ordering.keys()
         return render(request, 'comments/index.html', context=context)
 
     def post(self, request, *args, **kwargs):
