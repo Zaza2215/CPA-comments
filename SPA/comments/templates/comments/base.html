@@ -8,16 +8,17 @@
 </head>
 <body>
 <div class="header">
-        {% if user.is_authenticated %}
-        <p class="main-p">{{ user.username }} | <a href="{% url 'logout' %}">Log out</a></p>
-        {% else %}
-        <p class="main-p"><a href="{% url 'login' %}">Log in</a> | <a href="{% url 'register' %}">Register</a></p>
-        {% endif %}
+    {% if user.is_authenticated %}
+    <p class="main-p">{{ user.username }} | <a href="{% url 'logout' %}">Log out</a></p>
+    {% else %}
+    <p class="main-p"><a href="{% url 'login' %}">Log in</a> | <a href="{% url 'register' %}">Register</a></p>
+    {% endif %}
 </div>
 <div class="center-page">
     {% block content %}
 
     {% endblock %}
 </div>
+<script src="{% static 'comments/js/script.js' %}"></script>
 </body>
 </html>

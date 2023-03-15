@@ -1,7 +1,6 @@
 <div class="comment reply">
     <p class="comment-info">By {{ comment.author }} on {{ comment.created_time }}</p>
     <div class="comment-body">
-        <p class="comment-body">{{ reply.body }}</p>
 
         {% if reply.image %}
         <img class="image-comment" src="{{ reply.image.url }}" alt="{{ reply.image.name }}">
@@ -9,8 +8,10 @@
         {% if reply.file %}
         <a href="{{ reply.file.url }}">file.txt</a>
         {% endif %}
-        {% if comment.replies.all %}
+        <p class="comment-body">{{ reply.body }}</p>
+        <button class="button-reply">reply</button>
 
+        {% if comment.replies.all %}
         <div class="replies">
             {% for reply in comment.replies.all %}
             {% include 'comments/comment.html' with comment=reply %}
