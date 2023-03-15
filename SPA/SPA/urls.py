@@ -21,7 +21,8 @@ from SPA import settings
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("comments/", include("comments.urls"))
+    path("captcha/", include("captcha.urls")),
+    path("comments/", include("comments.urls")),
 ]
 
 if settings.DEBUG:
