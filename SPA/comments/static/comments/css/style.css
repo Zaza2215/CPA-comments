@@ -55,9 +55,6 @@ div.comment-body {
     border: solid 1px #96b58f;
     margin-top: 4px;
 }
-.image-comment {
-    style=width: 50px;
-}
 .replies {
      padding-left: 2px;
 }
@@ -72,8 +69,7 @@ div.comment-body {
     vertical-align: top;
 }
 
-.form-error ul {
-    list-style: none;
+.form-error {
     padding: 0;
     color: #CC0000;
 }
@@ -95,11 +91,13 @@ div.comment-body {
 }
 img.image-comment{
     margin: 2px;
-    width: 50px;
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
     border-radius: 6px
 }
 img.image-comment:hover {
-    border: solid 2px #fc4c02;
+    border: solid 2px #96b58f;
     margin: 0;
 }
 .button-reply {

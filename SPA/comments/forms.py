@@ -6,12 +6,15 @@ from .models import *
 
 
 class AddCommentForm(forms.ModelForm):
-    image = forms.ImageField(label='image', required=False)
+    image = forms.ImageField(label='Image', required=False,
+                             widget=forms.ClearableFileInput(attrs={'multiple': False, 'accept': '.jpg, .png, .gif'}))
+    file = forms.FileField(label='File', required=False,
+                           widget=forms.ClearableFileInput(attrs={'multiple': False, 'accept': '.txt'}))
 
     class Meta:
         model = Comment
         fields = ('body', 'image', 'file', 'parent')
-        widget = {
+        widgets = {
             'parent': forms.HiddenInput()
         }
 
