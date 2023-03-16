@@ -107,10 +107,10 @@ img.image-comment:hover {
     padding: 2px;
 }
 .button-reply:hover {
-    background: rgba(224, 252, 217, .4)
+    background: rgba(68, 117, 57, .4)
 }
 .button-reply:active  {
-    background: rgba(224, 252, 217, 1)
+    background: rgba(68, 117, 57, .6)
 }
 .ava-comment {
     width: 32px;

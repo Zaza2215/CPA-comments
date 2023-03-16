@@ -15,7 +15,7 @@ class AddCommentForm(forms.ModelForm):
         model = Comment
         fields = ('body', 'image', 'file', 'parent')
         widgets = {
-            'parent': forms.HiddenInput()
+            'parent': forms.HiddenInput(attrs={'class': 'hidden-input-parent'})
         }
 
 

@@ -12,6 +12,7 @@
         {{ form.body }}
         {{ form.image }}
         {{ form.file }}
+        {{ form.parent }}
 
         <button type="submit">Submit</button>
     </form>
@@ -51,7 +52,7 @@
             <a href="{{ comment.file.url }}">file.txt</a>
             {% endif %}
             <h3 class="comment-body">{{ comment.body }}</h3>
-            <button class="button-reply">reply</button>
+            <button class="button-reply" data-comment-id="{{ comment.pk }}">reply</button>
 
             {% if comment.replies.all %}
             <div class="replies">
