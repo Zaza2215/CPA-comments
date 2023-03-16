@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView, CreateView
 from django.contrib.auth.views import LoginView
+from django.core.paginator import Paginator, PageNotAnInteger
 
 from .models import *
 from .forms import *
@@ -33,18 +34,27 @@ class CommentBase(View):
 
     def get(self, request, *args, **kwargs):
         sort_by = self.request.GET.get('sort_by', '-created_time')
-        object_list = Comment.objects.filter(parent=None).prefetch_related('replies__replies').order_by(sort_by)
+        object_list2 = Comment.objects.filter(parent=None).prefetch_related('replies__replies').order_by(sort_by)
+
+        paginator = Paginator(object_list2, 15)
+        page = request.GET.get('page')
+        object_list = paginator.get_page(page)
 
         context = {
             'object_list': object_list,
         }
         if request.user.is_authenticated:
             context['form'] = AddCommentForm
-            # context['order'] = ordering.keys()
         return render(request, 'comments/index.html', context=context)
 
     def post(self, request, *args, **kwargs):
-        object_list = Comment.objects.filter(parent=None).prefetch_related('replies__replies')
+        sort_by = self.request.GET.get('sort_by', '-created_time')
+        object_list2 = Comment.objects.filter(parent=None).prefetch_related('replies__replies').order_by(sort_by)
+
+        paginator = Paginator(object_list2, 15)
+        page = request.GET.get('page')
+        object_list = paginator.get_page(page)
+
         context = {
             'object_list': object_list,
         }

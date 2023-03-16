@@ -26,15 +26,15 @@
 <form method="get">
     <label for="sort_by">Sort by:</label>
     <select id="sort_by" name="sort_by">
-      <option value="-created_time">Date (newest first)</option>
-      <option value="created_time">Date (oldest first)</option>
-      <option value="author__username">Author name (A-Z)</option>
-      <option value="-author__username">Author name (Z-A)</option>
-      <option value="author__email">Author email (A-Z)</option>
-      <option value="-author__email">Author email (Z-A)</option>
+        <option value="-created_time">Date (newest first)</option>
+        <option value="created_time">Date (oldest first)</option>
+        <option value="author__username">Author name (A-Z)</option>
+        <option value="-author__username">Author name (Z-A)</option>
+        <option value="author__email">Author email (A-Z)</option>
+        <option value="-author__email">Author email (Z-A)</option>
     </select>
     <button type="submit">Sort</button>
-  </form>
+</form>
 
 <div class="comments">
     {% for comment in object_list %}
@@ -64,5 +64,26 @@
         </div>
     </div>
     {% endfor %}
+    <div class="pagination">
+
+        {% if object_list.has_previous %}
+            <a class="page-num" href="?page={{ object_list.previous_page_number }}">previous</a>
+        {% endif %}
+
+
+
+        {% for num in object_list.paginator.page_range %}
+            {% if num == object_list.number %}
+                <a class="page-selected" href="">{{ num }}</a>
+            {% else %}
+                <a class="page-num" href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if object_list.has_next %}
+            <a class="page-num" href="?page={{ object_list.next_page_number }}">next</a>
+        {% endif %}
+
+    </div>
 </div>
 {% endblock %}

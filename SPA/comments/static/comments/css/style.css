@@ -121,3 +121,13 @@ img.image-comment:hover {
     display:flex;
     align-items: center;
 }
+.pagination {
+    padding: 12px 24px;
+    margin: 2px 0;
+    background-color: rgba(224, 252, 217, .8);
+    color: black;
+}
+.page-num, .page-selected {
+    padding: 4px;
+    border: solid 2px #96b58f;
+}
