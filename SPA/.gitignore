@@ -1,0 +1,12 @@
+**.pyc
+**.sqlite
+**.sql
+**.sqlite3
+.idea
+
+.DS_Store
+Desktop.ini
+._*
+Thumbs.db
+.Spotlight-V100
+.Trashes
