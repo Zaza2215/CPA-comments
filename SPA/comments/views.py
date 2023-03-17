@@ -6,8 +6,8 @@ from django.views.generic import ListView, CreateView
 from django.contrib.auth.views import LoginView
 from django.core.paginator import Paginator, PageNotAnInteger
 
-from .models import *
-from .forms import *
+from .models import Profile, Comment
+from .forms import LoginUserForm, RegisterUserForm, AddCommentForm
 
 
 class RegisterUser(CreateView):
@@ -49,9 +49,9 @@ class CommentBase(View):
 
     def post(self, request, *args, **kwargs):
         sort_by = self.request.GET.get('sort_by', '-created_time')
-        object_list2 = Comment.objects.filter(parent=None).prefetch_related('replies__replies').order_by(sort_by)
+        object_list = Comment.objects.filter(parent=None).prefetch_related('replies__replies').order_by(sort_by)
 
-        paginator = Paginator(object_list2, 15)
+        paginator = Paginator(object_list, 15)
         page = request.GET.get('page')
         object_list = paginator.get_page(page)
 

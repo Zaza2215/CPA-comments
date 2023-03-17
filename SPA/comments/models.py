@@ -22,7 +22,7 @@ class Profile(models.Model):
 
 
 class Comment(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     body = models.TextField()
     image = models.ImageField(upload_to=get_upload_path, null=True, blank=True)
     file = models.FileField(upload_to=get_upload_path, null=True, blank=True)
