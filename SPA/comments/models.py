@@ -1,4 +1,5 @@
 import os
+import io
 import datetime
 import time
 
@@ -16,6 +17,34 @@ def get_upload_path(instance, filename):
     return f'{instance.__class__.__name__}/{datetime.datetime.today().strftime("%Y/%m")}/image_{filename}{ext}'
 
 
+def thumbnail_gif(path_file: str, save_path: str, resolution: tuple):
+    gif_image = Image.open(path_file)
+    # Get options of gif
+    options = {
+        'loop': gif_image.info['loop'],
+        'duration': gif_image.info['duration']
+    }
+    frames = []
+
+    # Iterate over each frame in the GIF
+    for frame in range(gif_image.n_frames):
+        # Seek to the current frame
+        gif_image.seek(frame)
+
+        # Convert the current frame to JPEG format
+        jpg_image = gif_image.convert("RGB")
+        jpg_image.thumbnail(resolution)
+        frames.append(jpg_image)
+
+    frames[0].save(
+        save_path,
+        save_all=True,
+        append_images=frames[1:],
+        optimize=True,
+        **options
+    )
+
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     photo = models.ImageField(upload_to='profile_photos/', null=True, blank=True)
@@ -31,44 +60,6 @@ class Comment(models.Model):
     level = models.PositiveIntegerField(default=0)
 
     # TODO: If the .gif's resolution is greater than 320x240 the animation will disappear
-    def reduce_gif(self):
-        # Open the GIF as a sequence of frames
-        frames = []
-        gif_image = Image.open(BytesIO(self.image.read()))
-        try:
-            while True:
-                gif_image.seek(gif_image.tell() + 1)
-                frames.append(gif_image.copy())
-        except EOFError:
-            pass
-        # Resize each frame proportionally to fit within 320x240 box
-        resized_frames = []
-        for frame in frames:
-            frame.thumbnail((320, 240), resample=Image.LANCZOS)
-            frame.info = gif_image.info
-            resized_frames.append(frame)
-        # Save the resized frames as an animated GIF
-        buffers = []
-        for frame in resized_frames:
-            buffer = BytesIO()
-            frame.save(buffer, format='GIF')
-            buffers.append(buffer)
-        buffers[0].seek(0)
-        resized_frames[0].save(
-            self.image.name,
-            save_all=True,
-            append_images=resized_frames[1:],
-            format='GIF',
-            disposal=2,
-            loop=0,
-            optimize=True,
-            transparency=0,
-            duration=100,
-            disposal_method=2,
-            save_all_add=False,
-            include_color_table=True,
-        )
-        self.image.save(self.image.name, ContentFile(buffers[0].getvalue()), save=False)
 
     def reduce_image_other_formats(self, ext):
         thumbnail_image = Image.open(BytesIO(self.image.read()))
@@ -80,9 +71,7 @@ class Comment(models.Model):
     def reduce_image(self, ext):
         if ext == '.jpg':
             ext = '.jpeg'
-        if ext == '.gif':
-            self.reduce_gif()
-        else:
+        if ext != '.gif':
             self.reduce_image_other_formats(ext.upper()[1:])
 
     def save(self, *args, **kwargs):
@@ -92,7 +81,10 @@ class Comment(models.Model):
 
         if self.parent:
             self.level = self.parent.level + 1
+
         super().save(*args, **kwargs)
+        if extension == '.gif' and (self.image.width > 360 or self.image.height > 240):
+            thumbnail_gif(str(self.image.path), str(self.image.path), (320, 240))
 
     def __str__(self):
         return self.body[:50]
