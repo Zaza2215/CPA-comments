@@ -9,7 +9,7 @@
         <a href="{{ reply.file.url }}">file.txt</a>
         {% endif %}
         <p class="comment-body">{{ reply.body }}</p>
-        <button class="button-reply">reply</button>
+        <button class="button-reply" data-comment-id="{{ reply.pk }}">reply</button>
 
         {% if comment.replies.all %}
         <div class="replies">

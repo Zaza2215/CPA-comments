@@ -44,10 +44,17 @@ fileInput.addEventListener('change', (event) => {
   }
 });
 
-var replyButtons = document.querySelectorAll('.button-reply');
+const replyButtons = document.querySelectorAll('.button-reply');
   for (var i = 0; i < replyButtons.length; i++) {
     replyButtons[i].addEventListener('click', function() {
-      var commentId = this.getAttribute('data-comment-id');
+      const commentId = this.getAttribute('data-comment-id');
       document.getElementById('id_parent').value = commentId;
     });
 }
+
+const noReplyButton = document.getElementById("no-reply");
+const parentInput = document.getElementById("id_parent");
+
+noReplyButton.addEventListener("click", function() {
+  parentInput.value = "";
+});

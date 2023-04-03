@@ -75,16 +75,17 @@ class Comment(models.Model):
             self.reduce_image_other_formats(ext.upper()[1:])
 
     def save(self, *args, **kwargs):
-        if self.image:
-            filename, extension = os.path.splitext(self.image.name)
-            self.reduce_image(extension)
-
         if self.parent:
             self.level = self.parent.level + 1
 
-        super().save(*args, **kwargs)
-        if extension == '.gif' and (self.image.width > 360 or self.image.height > 240):
-            thumbnail_gif(str(self.image.path), str(self.image.path), (320, 240))
+        if self.image:
+            filename, extension = os.path.splitext(self.image.name)
+            self.reduce_image(extension)
+            super().save(*args, **kwargs)
+            if extension == '.gif' and (self.image.width > 360 or self.image.height > 240):
+                thumbnail_gif(str(self.image.path), str(self.image.path), (320, 240))
+        else:
+            super().save(*args, **kwargs)
 
     def __str__(self):
         return self.body[:50]
